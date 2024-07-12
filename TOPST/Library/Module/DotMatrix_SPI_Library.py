@@ -17,7 +17,7 @@ rows = [
 def set_spi(bus, device, gpio_pin):
     fd = SPI_Library.spi_open(bus, device)
     SPI_Library.spi_set_bits_per_word(fd, 8)
-    SPI_Library.spi_set_speed(fd, 10000)
+    SPI_Library.spi_set_speed(fd, 500000)
     SPI_Library.spi_set_mode(fd, 0)
     GPIO_Library.export(gpio_pin)
     GPIO_Library.set_direction(gpio_pin, "out")
@@ -32,9 +32,9 @@ def transfer_msg(fd, row, message, pin):
 
 def output_data(pin):   
     GPIO_Library.set_value(pin, 1)
-    time.sleep(0.1)
+    time.sleep(0.0001)
     GPIO_Library.set_value(pin, 0)
-    time.sleep(0.1)
+    time.sleep(0.0001)
 
 off = 0b11111111
 def clear_matrix(fd, pin):
