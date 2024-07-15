@@ -23,7 +23,7 @@ if __name__ == "__main__":
     # exit program when keyboard interrupt
     while True:
         for row, data in enumerate(message):
-            dot.transfer_msg(fd ,row, data, latch)
+            dot.transfer_msg(fd, data, latch)
             print(row)
         if(KeyboardInterrupt):
             dot.quit_spi(fd)

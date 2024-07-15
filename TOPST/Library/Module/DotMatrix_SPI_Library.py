@@ -25,8 +25,8 @@ def set_spi(bus, device, gpio_pin):
     return fd
 
 # message = 8byte array
-def transfer_msg(fd, row, message, pin):
-    data = struct.pack('BB', rows[row], message)
+def transfer_msg(fd, message, pin):
+    data = struct.pack('B', message)
     SPI_Library.spi_write(fd, data)
     output_data(pin)
 
@@ -38,8 +38,8 @@ def output_data(pin):
 
 off = 0b11111111
 def clear_matrix(fd, pin):
-    for row in range(0, 8):
-        SPI_Library.spi_write(fd, struct.pack('BB', rows[row], off))
+    for i in range(0, 8):
+        SPI_Library.spi_write(fd, struct.pack('B', off))
         output_data(pin)
 
 def quit_spi(fd):
