@@ -8,37 +8,37 @@ def duflex_SPI(data, mosi_pin, miso_pin, sclk_pin):
         response.append(response_byte)
     return response
 
-def duflex_byte(byte, mosi_pin, miso_pin, sclk_pin):
+def duflex_byte(byte, ss_pin, mosi_pin, miso_pin):
     response_byte = []
     for i in range(8):
         bit = (byte >> (7-i)) & 0x01
         GPIO.set_value(mosi_pin, bit)
 
-        GPIO.set_value(sclk_pin, 1)
+        GPIO.set_value(ss_pin, 1)
         time.sleep(0.00001)
 
         response_bit = GPIO.get_value(miso_pin)
         response_byte = (response_byte << 1) | response_bit
 
-        GPIO.set_value(sclk_pin, 0)
+        GPIO.set_value(ss_pin, 0)
         time.sleep(0.00001)
 
     return response_byte
 
-def write_data(data, mosi_pin, sclk_pin):
+def write_data(data, ss_pin, mosi_pin):
     for byte in data:
-        write_byte(byte, mosi_pin, sclk_pin)
+        write_byte(byte,ss_pin, mosi_pin)
 
-def write_byte(byte, mosi_pin, sclk_pin):
-    GPIO.set_value(sclk_pin , 0)
+def write_byte(byte, ss_pin, mosi_pin):
+    GPIO.set_value(ss_pin , 0)
     for i in range (8):
         bit = (byte >> (7-i)) & 0x01
         GPIO.set_value(mosi_pin , bit)
 
         #toggle
-        GPIO.set_value(sclk_pin, 1)
+        GPIO.set_value(ss_pin, 1)
         time.sleep(0.00001)
-        GPIO.set_value(sclk_pin, 0)
+        GPIO.set_value(ss_pin, 0)
         time.sleep(0.00001)
 
 def read_data(length, miso_pin, sclk_pin):
@@ -85,9 +85,8 @@ def clear_soft_spi(ss_pin = 0, mosi_pin = 0, miso_pin = 0, sclk_pin = 0):
     if(sclk_pin):
         GPIO.unexport(sclk_pin)
 
-
-def RClock(ss_pin):
-    GPIO.set_value(ss_pin, 1)
+def RClock(sclk_pin):
+    GPIO.set_value(sclk_pin, 1)
     time.sleep(0.00001)
-    GPIO.set_value(ss_pin, 0)
+    GPIO.set_value(sclk_pin, 0)
     time.sleep(0.00001)
