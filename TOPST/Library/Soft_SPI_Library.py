@@ -84,3 +84,10 @@ def clear_soft_spi(ss_pin = 0, mosi_pin = 0, miso_pin = 0, sclk_pin = 0):
         GPIO.unexport(miso_pin)
     if(sclk_pin):
         GPIO.unexport(sclk_pin)
+
+
+def RClock(ss_pin):
+    GPIO.set_value(ss_pin, 1)
+    time.sleep(0.00001)
+    GPIO.set_value(ss_pin, 0)
+    time.sleep(0.00001)
