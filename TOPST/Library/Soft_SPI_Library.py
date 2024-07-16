@@ -25,9 +25,10 @@ def duflex_byte(byte, ss_pin, mosi_pin, miso_pin):
 
     return response_byte
 
-def write_data(data, ss_pin, mosi_pin):
+def write_data(data, ss_pin, mosi_pin, sclk_pin):
     for byte in data:
         write_byte(byte,ss_pin, mosi_pin)
+        RClock(sclk_pin)
 
 def write_byte(byte, ss_pin, mosi_pin):
     GPIO.set_value(ss_pin , 0)
