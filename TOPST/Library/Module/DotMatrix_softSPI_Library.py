@@ -15,7 +15,7 @@ rows = [
 def set_spi(mosi_pin, sclk_pin, rclk_pin):
     spi.set_soft_spi(0, mosi_pin, 0, sclk_pin, rclk_pin)
 
-def transfer_data(data, sclk_pin, mosi_pin, rclk_pin):
+def transfer_data(data, mosi_pin, sclk_pin, rclk_pin):
     send_data = []
     i = 0
     for byte in data:
