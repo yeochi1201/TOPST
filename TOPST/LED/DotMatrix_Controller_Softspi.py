@@ -1,8 +1,8 @@
 from ..Library.Module import DotMatrix_softSPI_Library as dot
 import sys
-ss_pin = 90 # RCLK
+rclk_pin = 90 # RCLK
 sclk_pin = 86 # SRCLK
-mosi_pin = 65 # MOSI
+mosi_pin = 65 # MOSI (SER)
 
 data =[
     0b00011000, #18
@@ -15,7 +15,6 @@ data =[
     0b00000000  #00
 ]
 data =[
-    
     0b11111111,  #00
     0b11111111,  #00
     0b11111111,  #00
@@ -27,9 +26,6 @@ data =[
 ]
 
 if __name__ == "__main__":
-    dot.set_spi(ss_pin, mosi_pin, sclk_pin)
+    dot.set_spi(mosi_pin, sclk_pin, rclk_pin)
     while True:
-        dot.transfer_data(data,ss_pin, mosi_pin,sclk_pin)
-        if(KeyboardInterrupt):
-            dot.clear_spi(ss_pin, mosi_pin, sclk_pin)
-            sys.exit(1)
+        dot.transfer_data(data, mosi_pin, sclk_pin, rclk_pin)
