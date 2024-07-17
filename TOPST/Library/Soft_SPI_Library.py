@@ -15,31 +15,34 @@ def duflex_byte(byte, mosi_pin, miso_pin, sclk_pin):
         GPIO.set_value(mosi_pin, bit)
 
         GPIO.set_value(sclk_pin, 1)
-        time.sleep(0.00001)
+        time.sleep(0.0001)
 
         response_bit = GPIO.get_value(miso_pin)
         response_byte = (response_byte << 1) | response_bit
 
         GPIO.set_value(sclk_pin, 0)
-        time.sleep(0.00001)
+        time.sleep(0.0001)
 
     return response_byte
 
 def write_data(data, mosi_pin, sclk_pin):
+    GPIO.set_value(sclk_pin, 0)
     for byte in data:
-        write_byte(byte, mosi_pin, sclk_pin)
+        write_byte(byte,sclk_pin, mosi_pin)
 
-def write_byte(byte, mosi_pin, sclk_pin):
+def write_byte(byte, sclk_pin, mosi_pin):
+    writed = []
     GPIO.set_value(sclk_pin , 0)
     for i in range (8):
-        bit = (byte >> (7-i)) & 0x01
+        bit = (byte << i) & 0x80
         GPIO.set_value(mosi_pin , bit)
-
+        writed.append(bit)
         #toggle
         GPIO.set_value(sclk_pin, 1)
-        time.sleep(0.00001)
+        time.sleep(0.002)
         GPIO.set_value(sclk_pin, 0)
-        time.sleep(0.00001)
+        time.sleep(0.002)
+    print(writed)
 
 def read_data(length, miso_pin, sclk_pin):
     response = []
@@ -58,7 +61,7 @@ def read_byte(miso_pin, sclk_pin):
 
         GPIO.set_value(sclk_pin , 0)
         GPIO.set_value(sclk_pin, 1)
-    
+
     return response_byte
 
 def set_soft_spi(ss_pin = 0, mosi_pin = 0, miso_pin = 0, sclk_pin = 0, rclk_pin = 0):
@@ -78,7 +81,8 @@ def set_soft_spi(ss_pin = 0, mosi_pin = 0, miso_pin = 0, sclk_pin = 0, rclk_pin 
     if(rclk_pin):
         GPIO.export(rclk_pin)
         GPIO.set_direction(rclk_pin, "out")
-def clear_soft_spi(ss_pin = 0, mosi_pin = 0, miso_pin = 0, sclk_pin = 0, rclk_pin=0):
+
+def clear_soft_spi(ss_pin = 0, mosi_pin = 0, miso_pin = 0, sclk_pin = 0, rclk_pin = 0):
     if(ss_pin):
         GPIO.unexport(ss_pin)
     if(mosi_pin):
@@ -91,7 +95,7 @@ def clear_soft_spi(ss_pin = 0, mosi_pin = 0, miso_pin = 0, sclk_pin = 0, rclk_pi
         GPIO.unexport(rclk_pin)
 
 def RClock(clk_pin):
-    GPIO.set_value(clk_pin, 1)
-    time.sleep(0.00001)
     GPIO.set_value(clk_pin, 0)
-    time.sleep(0.00001)
+    time.sleep(0.002)
+    GPIO.set_value(clk_pin, 1)
+    time.sleep(0.002)
