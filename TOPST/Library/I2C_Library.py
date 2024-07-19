@@ -21,17 +21,17 @@ def i2c_set_slave(fd, addr):
         print(f"Error : Setting I2C Address {addr}: {e}")
         sys.exit(1)
 
-def i2c_read_reg(fd, reg):
+def i2c_read_reg(fd, reg, length):
     try:
-        os.write(fd, bytes([reg]))
-        return os.read(fd)
+        i2c_write(fd, reg)
+        return os.read(fd, length)
     except IOError as e:
         print(f"Error : I2C Device Reading Register {reg} : {e}")
         sys.exit(1)
 
-def i2c_read(fd):
+def i2c_read(fd, length):
     try:
-        return os.read(fd)
+        return os.read(fd, length)
     except IOError as e:
         print(f"Error : I2C Device Reading Register : {e}")
         sys.exit(1)

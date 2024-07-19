@@ -10,8 +10,6 @@ output = 1
 if __name__ == "__main__":
     fd = pcf.open_device(bus, addr)
     for i in range(10):
-        pcf.write_device(fd, pcf.get_control_byte(output, input, auto_increment, channel))
-        print(pcf.read_device(fd))
+        control_byte = pcf.get_control_byte(output, input, auto_increment, channel)
+        print(pcf.read_device(fd, control_byte))
     pcf.quit_device(fd)
-    
-    
