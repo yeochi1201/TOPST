@@ -3,6 +3,7 @@ import sys
 import fcntl
 
 device_path = "/dev/i2c-{}"
+i2c_slave = 0x0703
 
 # fcntl
 def i2c_open(bus):
@@ -13,26 +14,40 @@ def i2c_open(bus):
         sys.exit(1)
     return fd
 
-def i2c_set_slave(fd, addr, i2c_slave):
+def i2c_set_slave(fd, addr):
     try:
         fcntl.ioctl(fd, i2c_slave, addr)
     except IOError as e:
         print(f"Error : Setting I2C Address {addr}: {e}")
         sys.exit(1)
 
-def i2c_read(fd, reg, length):
+def i2c_read_reg(fd, reg):
     try:
         os.write(fd, bytes([reg]))
-        return os.read(fd, length)
+        return os.read(fd)
     except IOError as e:
         print(f"Error : I2C Device Reading Register {reg} : {e}")
         sys.exit(1)
+
+def i2c_read(fd):
+    try:
+        return os.read(fd)
+    except IOError as e:
+        print(f"Error : I2C Device Reading Register : {e}")
+        sys.exit(1)
     
-def i2c_write(fd, reg, data):
+def i2c_write_reg(fd, reg, data):
     try:
         os.write(fd, bytes([reg]+data))
     except IOError as e:
         print(f"Error : I2C Device Writing Register {reg} : {e}")
+        sys.exit(1)
+
+def i2c_write(fd, data):
+    try:
+        os.write(fd, bytes([data]))
+    except IOError as e:
+        print(f"Error : I2C Device Writing Register : {e}")
         sys.exit(1)
 
 def i2c_quit(fd):

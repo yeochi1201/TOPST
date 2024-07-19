@@ -1,31 +1,30 @@
 from .. import I2C_Library as i2c
-from .. import GPIO_Library as gpio
 
-# using fcntl
-# icotl slave value
-slave= 0x0703
-addr= 0x48
-data_len = 8
-pin_map = [0x00, 0x01, 0x02, 0x03, 0x04]
-def open_device(bus):
-    fd =  i2c.i2c_open(bus)
-    i2c.i2c_set_slave(bus, addr, slave)
-    return fd
+def open_device(bus, addr = 0x48):
+    fd = i2c.i2c_open(bus)
+    i2c.i2c_set_slave(fd, addr)
 
-def write_device(fd, gpio_pin, data):
-    i2c.i2c_write(fd, pin_map[gpio_pin], data)
+def get_control_byte(output, input, auto_increment, channel):
+    control_byte = str(0)
+    control_byte = control_byte + str(output)
+    control_byte = control_byte + int_to_binary_string(input)
+    control_byte = control_byte + str(0)
+    control_byte = control_byte + str(auto_increment)
+    control_byte = control_byte + int_to_binary_string(channel)
 
-def read_device(fd, gpio_pin):
-    return i2c.i2c_read(fd, pin_map[gpio_pin], data_len)
+    print(control_byte)
+    return int(control_byte, 2)
 
-# using sysfs
-def open_path(bus):
-    return i2c.i2c_sysfs_path(bus, 0x20)
+def int_to_binary_string(bit_value):
+    binary_string = bin(bit_value)[2:]
+    if len(binary_string) == 1:
+        binary_string = '0' + binary_string
 
-def read_path(sys_path, gpio_pin):
-    file_path = f"gpio{gpio_pin}/value"
-    return i2c.read_sysfs_file(sys_path, file_path)
+def write_device(fd, control_byte):
+    i2c.i2c_write(fd, control_byte)
 
-def write_path(sys_path, gpio_pin, data):
-    file_path = f"gpio{gpio_pin}/value"
-    i2c.write_sysfs_file(sys_path, file_path,str(data))
+def read_device(fd):
+    return i2c.i2c_read(fd)
+
+def quit_device(fd):
+    i2c.i2c_quit(fd)
