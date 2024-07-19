@@ -1,4 +1,4 @@
-from ..Library.Module import PCF8951_Library as pcf
+from ..Library.Module import PCF8591_Library as pcf
 
 bus = 1
 addr = 0x48
