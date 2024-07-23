@@ -29,14 +29,14 @@ def quit_led_pwm(channel):
     PWM_Library.unexport(channel)
 
 # led set pwm duty cycle
-def set_led_cycle(channel, second):
+def set_led_cycle(channel, second, cycle):
     PWM_Library.set_period_sec(channel, second)
-    PWM_Library.set_cycle_sec(channel, second)
+    PWM_Library.set_cycle_sec(channel, cycle)
     
 
-def set_led_cycle_ns(channel, nano_second):
+def set_led_cycle_ns(channel, nano_second, nano_cycle):
     PWM_Library.set_period_ns(channel, nano_second)
-    PWM_Library.set_cycle_ns(channel, nano_second)
+    PWM_Library.set_cycle_ns(channel, nano_cycle)
 
 # turn on led
 def turn_on_pwm(channel):

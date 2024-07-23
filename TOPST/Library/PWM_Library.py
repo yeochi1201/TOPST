@@ -58,7 +58,7 @@ def set_cycle_ns(channel, cycle):
     if(is_exported(channel)):
         try:
             with open(cycle_path.format(channel), 'w') as cycle_file:
-                cycle_file.write(str(cycle/2))
+                cycle_file.write(str(cycle))
         except IOError as e:
             print(f"Error : PWM {channel} Duty Cycle Setting : {e}")
             sys.exit(1)
@@ -79,7 +79,7 @@ def set_cycle_sec(channel, cycle):
         try:
             with open(cycle_path.format(channel), 'w') as cycle_file:
                 # on / on + off * 100 => duty cycle / period * 100 
-                cycle_file.write(str(int(cycle)/2 *1000000000))
+                cycle_file.write(str(int(cycle) *1000000000))
         except IOError as e:
             print(f"Error : PWM {channel} Duty Cycle Setting : {e}")
             sys.exit(1)
