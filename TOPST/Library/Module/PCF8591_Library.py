@@ -20,6 +20,7 @@ def int_to_binary_string(bit_value):
     binary_string = bin(bit_value)[2:]
     if len(binary_string) == 1:
         binary_string = '0' + binary_string
+    return binary_string
 
 def write_device(fd, control_byte):
     i2c.i2c_write(fd, control_byte)
