@@ -8,7 +8,7 @@ def set_soft_spi(ss_pin = 0, sclk_pin = 0, mosi_pin = 0, miso_pin = 0, rclk_pin 
         GPIO.set_value(ss_pin, 0)
     if(rclk_pin):
         GPIO.export(rclk_pin)
-        GPIO.set_direction(sclk_pin, "out")
+        GPIO.set_direction(rclk_pin, "out")
         GPIO.set_value(rclk_pin, 0)
     if(mosi_pin):
         GPIO.export(mosi_pin)
@@ -16,9 +16,9 @@ def set_soft_spi(ss_pin = 0, sclk_pin = 0, mosi_pin = 0, miso_pin = 0, rclk_pin 
     if(miso_pin):
         GPIO.export(miso_pin)
         GPIO.set_direction(miso_pin, "in")
-    if(rclk_pin):
+    if(sclk_pin):
         GPIO.export(sclk_pin)
-        GPIO.set_direction(rclk_pin, "out")
+        GPIO.set_direction(sclk_pin, "out")
         GPIO.set_value(sclk_pin, 1)
 
 def clear_soft_spi(ss_pin = 0,sclk_pin = 0, mosi_pin = 0, miso_pin = 0, rclk_pin = 0):

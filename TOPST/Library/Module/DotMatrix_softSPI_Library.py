@@ -13,7 +13,7 @@ rows = [
 ]
 
 def set_spi(mosi_pin, sclk_pin, rclk_pin):
-    spi.set_soft_spi(0, mosi_pin, 0, sclk_pin, rclk_pin)
+    spi.set_soft_spi(0, sclk_pin, mosi_pin, 0, rclk_pin)
 
 def transfer_data(data, mosi_pin, sclk_pin, rclk_pin):
     send_data = []
@@ -27,4 +27,4 @@ def transfer_data(data, mosi_pin, sclk_pin, rclk_pin):
         spi.RClock(rclk_pin)
 
 def clear_spi(mosi_pin, sclk_pin, rclk_pin):
-    spi.clear_soft_spi(0, mosi_pin,0,sclk_pin, rclk_pin)
+    spi.clear_soft_spi(0, sclk_pin, mosi_pin, 0, rclk_pin)
